@@ -1,0 +1,51 @@
+{
+  "series": "one run",
+  "command": "ANTHROPIC_API_KEY is read from the environment and is not stored. python3 scripts/record_first_token.py",
+  "machine": "Anubhav\u2019s MacBook Air, Darwin 27.2.0 arm64, Apple M4, Python 3.14.3",
+  "model": "claude-haiku-4-5-20251001",
+  "recorded_at": "2026-11-09T11:33:00Z",
+  "question_id": "q01",
+  "page_id": "p01",
+  "prompt": "Use only this Harborline runbook page. Answer in one sentence.\n\nWeather hold\nA departure holds when the harbor wind is at or above 28 knots.\n\nQuestion: At what wind speed does a departure hold?",
+  "usage": {
+    "input_tokens": 56,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 21,
+    "service_tier": "standard",
+    "inference_geo": "not_available",
+    "speed": "standard"
+  },
+  "stream_end_ms": 836.743,
+  "tokens": [
+    {
+      "t_ms": 691.304,
+      "text": "A"
+    },
+    {
+      "t_ms": 763.43,
+      "text": " departure hold occurs when"
+    },
+    {
+      "t_ms": 763.525,
+      "text": " the harbor wind is"
+    },
+    {
+      "t_ms": 780.59,
+      "text": " at or above "
+    },
+    {
+      "t_ms": 806.66,
+      "text": "28 knots"
+    },
+    {
+      "t_ms": 835.524,
+      "text": "."
+    }
+  ],
+  "clock": "perf_counter on this machine from just before the HTTP request until each content_block_delta and message_stop. Includes network and queue. Not a GPU profiler."
+}

@@ -1,0 +1,34 @@
+{
+  "product": "Harborline",
+  "about": "Fictional ferry-dispatch runbook. Original pages for Desk.",
+  "pages": [
+    {"id": "p01", "title": "Weather hold", "body": "A departure holds when the harbor wind is at or above 28 knots."},
+    {"id": "p02", "title": "Gangway", "body": "The gangway closes 8 minutes before the published departure."},
+    {"id": "p03", "title": "Noon crew", "body": "The noon boat needs 4 crew: one master, one mate, and two deckhands."},
+    {"id": "p04", "title": "Fuel call", "body": "A fuel call is due when the port tank reads under 35 percent."},
+    {"id": "p05", "title": "Radio", "body": "Dispatch uses VHF channel 12. Emergency calls use channel 16."},
+    {"id": "p06", "title": "Long slip", "body": "Slip B is the only slip that fits a boat longer than 40 meters."},
+    {"id": "p07", "title": "Tide", "body": "A sailing is canceled when the tide height is under 1.4 meters."},
+    {"id": "p08", "title": "Full boat", "body": "A full boat is 186 passengers. Standby boarding starts at 170 passengers."},
+    {"id": "p09", "title": "Delay text", "body": "The first delay text goes out at 15 minutes late, then again every 20 minutes."},
+    {"id": "p10", "title": "Missing child", "body": "A missing child page uses the code amber-deck and locks the gangway."},
+    {"id": "p11", "title": "Refunds", "body": "A weather cancellation refunds the ticket in full. A crew cancellation refunds the ticket and 10 dollars."},
+    {"id": "p12", "title": "Bikes", "body": "Bikes are capped at 22 per sailing. The first 6 spots are reserved for island residents."},
+    {"id": "p13", "title": "Night cabin", "body": "After 21:00 the cafe is closed and the cabin lights stay at half."},
+    {"id": "p14", "title": "Deck ice", "body": "If deck ice is reported, speed is capped at 9 knots until the mate clears it."}
+  ],
+  "questions": [
+    {"id": "q01", "q": "At what wind speed does a departure hold?", "answer": "28 knots", "page": "p01"},
+    {"id": "q02", "q": "How many minutes before departure does the gangway close?", "answer": "8 minutes", "page": "p02"},
+    {"id": "q03", "q": "How many crew does the noon boat need?", "answer": "4 crew", "page": "p03"},
+    {"id": "q04", "q": "When is a fuel call due?", "answer": "under 35 percent", "page": "p04"},
+    {"id": "q05", "q": "Which VHF channel does dispatch use?", "answer": "channel 12", "page": "p05"},
+    {"id": "q06", "q": "Which slip fits a boat longer than 40 meters?", "answer": "Slip B", "page": "p06"},
+    {"id": "q07", "q": "Below what tide height is a sailing canceled?", "answer": "1.4 meters", "page": "p07"},
+    {"id": "q08", "q": "How many passengers make a full boat?", "answer": "186 passengers", "page": "p08"},
+    {"id": "q09", "q": "When does the first delay text go out?", "answer": "15 minutes late", "page": "p09"},
+    {"id": "q10", "q": "What code is used for a missing child page?", "answer": "amber-deck", "page": "p10"},
+    {"id": "q11", "q": "What is the bike cap per sailing?", "answer": "22 per sailing", "page": "p12"},
+    {"id": "q12", "q": "What speed cap applies when deck ice is reported?", "answer": "9 knots", "page": "p14"}
+  ]
+}
