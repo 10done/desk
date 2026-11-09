@@ -7,18 +7,27 @@
   <link rel="stylesheet" href="site.css">
 </head>
 <body>
-  <main>
-    <p class="kicker">Desk</p>
-    <a class="slice" href="first-token/">
-      <p class="hero" id="hero">…</p>
-      <p class="unit">First token · one streamed run</p>
-    </a>
-  </main>
+  <article>
+    <p class="site">Desk</p>
+    <h1>Notes from measured runs</h1>
+    <p class="lede">Each note says what the measurement is, shows the recording, and walks one case.</p>
+    <ul class="index-list">
+      <li>
+        <a href="first-token/">
+          <h2>The wait before the first word</h2>
+          <p id="blurb">One streamed reply.</p>
+        </a>
+      </li>
+    </ul>
+  </article>
   <script>
     fetch("data/first-token.json")
       .then(function (res) { return res.json(); })
       .then(function (run) {
-        document.getElementById("hero").textContent = Math.round(run.stream_end_ms) + " ms";
+        var first = Math.round(run.tokens[0].t_ms);
+        var total = Math.round(run.stream_end_ms);
+        document.getElementById("blurb").textContent =
+          total + " ms total, first piece at " + first + " ms. One run.";
       });
   </script>
 </body>

@@ -3,30 +3,47 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>First token · Desk</title>
+  <title>The wait before the first word · Desk</title>
   <link rel="stylesheet" href="../site.css">
 </head>
 <body>
-  <main>
-    <p class="kicker" id="kicker">First token · one run</p>
-    <p class="hero" id="hero">…</p>
-    <p class="unit" id="unit">ms total latency at the playhead</p>
-    <svg id="chart" role="img" aria-labelledby="chart-title"></svg>
-    <label class="scrub">Scrub the recorded clock
-      <input id="scrub" type="range" min="0" max="1" value="1" step="any">
-    </label>
-    <div class="stats">
-      <div>Time to first token<b id="ttft">…</b></div>
-      <div>Time per streamed piece<b id="tpot">…</b></div>
-      <div>Phase<b id="phase">…</b></div>
-    </div>
-    <p class="sentence">On this one run the bar before the first piece is prefill, network included, and everything after it is decode.</p>
-    <p class="out" id="out"></p>
-    <button type="button" id="replay">Replay slowed</button>
-    <p class="meta" id="billed"></p>
-    <p class="meta" id="meta"></p>
-    <p class="cite"><a href="https://llmdojo.dev/learn/inference-optimization/measuring-inference.md">Module 2, Measuring Inference</a></p>
-  </main>
+  <article>
+    <p class="site"><a href="../">Desk</a></p>
+    <h1>The wait before the first word</h1>
+    <p class="lede">A streamed reply is two stretches of time. The long one is usually the silence before any text arrives.</p>
+
+    <h2>What this measures</h2>
+    <p>Prefill is the wait until the first piece of the answer shows up. On this page that wait includes the prompt, the queue, and the network, because the clock is on the laptop that sent the request, not inside the GPU. Decode is the time from that first piece to the last one. Total latency is the whole trip, from send to the end of the stream.</p>
+    <p>The scrubber below is the only control. It moves a playhead through one recorded reply. Time to first token, time per streamed piece, and total latency are recomputed from the pieces that have arrived by that moment. Before the first piece, the phase is prefill and the later numbers stay blank.</p>
+
+    <h2>The recording</h2>
+    <p>This is one run, slowed down when you press play. The numbers stay on the recorded clock.</p>
+    <figure>
+      <p class="result" id="hero">…</p>
+      <p class="unit">ms total latency at the playhead</p>
+      <svg id="chart" role="img" aria-labelledby="chart-title"></svg>
+      <p class="legend">Brown is prefill. Green is decode. The vertical line is the playhead.</p>
+      <label class="scrub">Scrub the recorded clock
+        <input id="scrub" type="range" min="0" max="1" value="1" step="any">
+      </label>
+      <div class="stats">
+        <div>Time to first token<b id="ttft">…</b></div>
+        <div>Time per streamed piece<b id="tpot">…</b></div>
+        <div>Phase<b id="phase">…</b></div>
+      </div>
+      <p class="out" id="out"></p>
+      <button type="button" id="replay">Play the recording slowly</button>
+    </figure>
+    <p class="note" id="billed"></p>
+    <p class="note" id="meta"></p>
+
+    <h2>Harborline, one question</h2>
+    <p>Harborline is a fictional ferry desk. Its runbook says a departure holds when the harbor wind is at or above 28 knots. The request sent only that page and asked, in one sentence, at what wind speed a departure holds.</p>
+    <p id="case"></p>
+    <p>The sentence in the recording is the whole answer. It names 28 knots, which is the line on the page. The useful split is in the clock: the screen was empty for most of the wait, and the words themselves were the short tail. When a reply feels slow, the first place to look is the time before the first token.</p>
+
+    <p class="note"><a href="https://llmdojo.dev/learn/inference-optimization/measuring-inference.md">Module 2, Measuring Inference</a></p>
+  </article>
   <script src="../metrics.js"></script>
   <script>
     var run, playing = false;
@@ -38,26 +55,24 @@
 
     function draw(m) {
       var w = chart.clientWidth || 640;
-      var h = 96;
+      var h = 88;
       var end = run.stream_end_ms || 1;
       var x = function (t) { return Math.max(0, Math.min(w, (t / end) * w)); };
       var first = run.tokens[0].t_ms;
       var ticks = "";
       for (var i = 0; i < run.tokens.length; i++) {
         var tx = x(run.tokens[i].t_ms);
-        ticks += '<line x1="' + tx + '" y1="58" x2="' + tx + '" y2="78" stroke="#1b1914" stroke-width="1.5"/>';
+        ticks += '<line x1="' + tx + '" y1="46" x2="' + tx + '" y2="70" stroke="#1c1917" stroke-width="1.5"/>';
       }
       var px = x(m.t);
       chart.setAttribute("viewBox", "0 0 " + w + " " + h);
       chart.innerHTML =
         '<title id="chart-title">Prefill until the first piece, then decode. Playhead at ' + Math.round(m.t) + ' ms.</title>' +
-        '<rect x="0" y="28" width="' + w + '" height="22" fill="#e4ddd0"/>' +
-        '<rect x="0" y="28" width="' + x(first) + '" height="22" fill="#b5522a"/>' +
-        '<rect x="' + x(first) + '" y="28" width="' + Math.max(0, w - x(first)) + '" height="22" fill="#1f6f6a"/>' +
+        '<rect x="0" y="24" width="' + w + '" height="18" fill="#e7e2d8"/>' +
+        '<rect x="0" y="24" width="' + x(first) + '" height="18" fill="#9a3412"/>' +
+        '<rect x="' + x(first) + '" y="24" width="' + Math.max(0, w - x(first)) + '" height="18" fill="#0f766e"/>' +
         ticks +
-        '<line x1="' + px + '" y1="16" x2="' + px + '" y2="86" stroke="#1b1914" stroke-width="2"/>' +
-        '<text x="0" y="16" fill="#5e584f" font-size="13" font-family="Palatino, Georgia, serif">prefill</text>' +
-        '<text x="' + x(first) + '" y="16" fill="#5e584f" font-size="13" font-family="Palatino, Georgia, serif"> decode</text>';
+        '<line x1="' + px + '" y1="8" x2="' + px + '" y2="80" stroke="#1c1917" stroke-width="2"/>';
     }
 
     function render() {
@@ -98,15 +113,21 @@
         run = data;
         scrub.max = String(run.stream_end_ms);
         scrub.value = String(run.stream_end_ms);
-        document.getElementById("kicker").textContent = "First token · " + run.series + " · " + run.model;
-        document.getElementById("meta").textContent = run.machine + ". " + run.clock;
+        document.getElementById("meta").textContent =
+          "Recorded " + run.recorded_at.slice(0, 10) + " on " + run.machine.split(",")[0] +
+          " (Apple M4), " + run.model + ". One run. These are arrival times on that laptop, so they include the network and the queue. They are not a GPU profile.";
         var mean = billedTpot(run);
+        var first = Math.round(run.tokens[0].t_ms);
+        var total = Math.round(run.stream_end_ms);
         if (mean != null) {
           document.getElementById("billed").textContent =
             run.usage.output_tokens + " billed output tokens arrived in " + run.tokens.length +
             " pieces. Mean decode span per billed token is " + mean.toFixed(1) +
             " ms. The scrubber times the pieces, because this stream did not stamp each token.";
         }
+        document.getElementById("case").textContent =
+          "The first piece arrived at " + first + " ms. The stream ended at " + total +
+          " ms. " + first + " of those " + total + " ms passed before any words.";
         render();
       });
   </script>
